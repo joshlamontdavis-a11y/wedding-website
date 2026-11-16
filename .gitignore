@@ -1,0 +1,8 @@
+# Operating system clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and tool folders
+.vscode/
+.claude/
