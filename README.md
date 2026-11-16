@@ -58,7 +58,7 @@ couldn't load. Press **F12** and look at the **Console** tab; it names the line 
 | `timeZone` | Time zone for calendar invites | America/Denver (Utah) |
 | `utcOffset` | Utah's offset from UTC **in April** (daylight time). Only change if the wedding moves to winter (`-07:00`). | -06:00 |
 
-The countdown counts down to the start of the first event (the sealing at 10:45 AM).
+The countdown counts down to the start of the first event (the sealing at 11:30 AM).
 
 **Sharing**
 

@@ -67,12 +67,12 @@ window.WEDDING = {
   events: [
     {
       title: "Sealing",
-      startTime: "10:45 AM",
-      endTime: "11:45 AM",
+      startTime: "11:30 AM",
+      endTime: "12:30 PM",
       timeFallback: "",
       venue: "Payson Utah Temple",
       address: "1494 S 930 W, Payson, UT 84651",
-      highlight: "Please arrive 30 minutes early (by 10:15 AM).",
+      highlight: "Please arrive 30 minutes early (by 11:00 AM).",
       // This is the "sealingNote": extra instructions for sealing guests.
       note: "",
     },
