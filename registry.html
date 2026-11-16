@@ -38,7 +38,8 @@
   <footer id="site-footer"></footer>
 
   <!-- Settings first, then the code that builds the page from them -->
-  <script src="config.js"></script>
+  <!-- Load config.js fresh on every visit so updates show up right away (no stale saved copy) -->
+  <script>document.write('<script src="config.js?v=' + Date.now() + '"><\/script>');</script>
   <script src="main.js"></script>
 </body>
 </html>
