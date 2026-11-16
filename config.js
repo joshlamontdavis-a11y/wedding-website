@@ -30,7 +30,7 @@ window.WEDDING = {
   /* ---------- Sharing ---------- */
   // The site's web address once it's live, e.g. "https://joshandcharlotte.com/"
   // (Optional; helps link previews find the preview photo.)
-  siteUrl: "",
+  siteUrl: "https://joshlamontdavis-a11y.github.io/wedding-website/",
   // One sentence shown under the link when it's texted or shared.
   siteDescription: "Join us as we celebrate our wedding on Friday, April 23, 2027 in Utah.",
 

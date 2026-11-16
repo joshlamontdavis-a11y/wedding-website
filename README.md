@@ -187,11 +187,15 @@ To use your first announcement photo instead:
 
 1. Make a copy of your favorite announcement photo, crop it to roughly **1200 × 630**
    (a wide rectangle), and save it as `images/og-image.jpg`, replacing the placeholder.
-2. **After the site is live**, the preview image needs a full web address. In each of the five
-   `.html` files, find the two lines containing `images/og-image.jpg` and change them to your
-   full address, e.g. `https://joshandcharlotte.netlify.app/images/og-image.jpg`.
-   (In VS Code: Edit → Replace in Files, replace `"images/og-image.jpg"` with the full address.)
-3. Also set `siteUrl` in `config.js`.
+2. That's it. The preview tags already point at the live address
+   (`https://joshlamontdavis-a11y.github.io/wedding-website/images/og-image.jpg`), and
+   `siteUrl` is set in `config.js`. Keep the file name `og-image.jpg` exactly.
+
+**If the site's address ever changes** (for example, a custom domain), update `siteUrl` in
+`config.js`, and in each of the five `.html` files replace
+`https://joshlamontdavis-a11y.github.io/wedding-website/` with the new address
+(it appears in the `og:url`, `og:image`, and `twitter:image` lines).
+In VS Code: Edit → Replace in Files.
 
 Messaging apps cache previews, so a change may take a while to show up for links you've
 already sent.
