@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fdf6f6">
 <title>RSVP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,16 +11,18 @@
 <style>
   /* Colors and fonts. Change these to match the rest of the site. */
   :root {
-    --rsvp-bg: #faf7f2;
+    /* Pink theme, matched to the wedding site's colors in styles.css */
+    --rsvp-bg: #fdf6f6;           /* blush white page background */
     --rsvp-card: #ffffff;
-    --rsvp-ink: #38332e;
-    --rsvp-muted: #7b7268;
-    --rsvp-line: #e6dfd4;
-    --rsvp-accent: #6f8160;
-    --rsvp-accent-dark: #58694b;
-    --rsvp-accent-soft: #eef1ea;
-    --rsvp-decline: #ece6de;
-    --rsvp-error: #a3483a;
+    --rsvp-ink: #3e3235;
+    --rsvp-muted: #6c5a5e;
+    --rsvp-line: #efd6d8;
+    --rsvp-accent: #a35763;       /* rose pink: buttons and "Will attend" */
+    --rsvp-accent-dark: #87404d;
+    --rsvp-accent-soft: #f8e3e6;  /* light pink highlights */
+    --rsvp-decline: #f3e7e8;      /* "Can't attend" when picked */
+    --rsvp-decline-line: #dcc3c6;
+    --rsvp-error: #b03a3a;
     --rsvp-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
     --rsvp-sans: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
@@ -48,7 +51,7 @@
     border: 1px solid var(--rsvp-line);
     border-radius: 16px;
     padding: 32px 28px;
-    box-shadow: 0 1px 2px rgba(56, 51, 46, .04), 0 8px 28px rgba(56, 51, 46, .05);
+    box-shadow: 0 1px 2px rgba(62, 50, 53, .04), 0 10px 30px rgba(62, 50, 53, .08);
   }
   .rsvp-step { animation: rsvp-in .35s ease both; }
   @keyframes rsvp-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -172,7 +175,7 @@
   .rsvp-choice:hover span { border-color: var(--rsvp-accent); }
   .rsvp-choice input:focus-visible + span { outline: 3px solid var(--rsvp-accent-soft); outline-offset: 2px; }
   .rsvp-choice.yes input:checked + span { background: var(--rsvp-accent); border-color: var(--rsvp-accent); color: #fff; }
-  .rsvp-choice.no input:checked + span { background: var(--rsvp-decline); border-color: #cfc5b8; color: var(--rsvp-ink); }
+  .rsvp-choice.no input:checked + span { background: var(--rsvp-decline); border-color: var(--rsvp-decline-line); color: var(--rsvp-ink); }
   .rsvp-guest.rsvp-missing .rsvp-choice span { border-color: var(--rsvp-error); }
   .rsvp-guest.rsvp-missing .rsvp-guest-name::after { content: "Please choose one"; display: block; font-weight: 400; font-size: 13px; color: var(--rsvp-error); }
 
