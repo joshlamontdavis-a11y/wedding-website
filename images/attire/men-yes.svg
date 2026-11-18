@@ -33,7 +33,7 @@
   <path d="M100 72 Q99 49 120 49 Q141 49 140 72 Q137 59 120 59 Q105 59 100 72 Z" fill="#3b2a20"/>
 
   <!-- Face -->
-  <circle cx="113" cy="73" r="2.2" fill="#3e3235"/>
-  <circle cx="127" cy="73" r="2.2" fill="#3e3235"/>
-  <path d="M113 81 Q120 87 127 81" stroke="#3e3235" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Happy closed eyes and an open grin, in the same style as the pink suit -->
+  <path d="M110 74 Q113 70.5 116 74 M124 74 Q127 70.5 130 74" stroke="#3e3235" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M113 80 Q120 89 127 80 Z" fill="#ffffff" stroke="#3e3235" stroke-width="1.5" stroke-linejoin="round"/>
 </svg>

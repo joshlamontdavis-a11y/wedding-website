@@ -17,7 +17,6 @@ times, and photos from there.
 | `rsvp.html` | RSVP page (your Google Form) |
 | `schedule.html` | Timeline of the day, with directions and add-to-calendar |
 | `attire.html` | What to Wear: the dress code, with funny yes/no pictures |
-| `attire-photos.html` | Same page using real photos from Unsplash (the `photo` entries in `config.js`) |
 | `registry.html` | Amazon registry and Venmo |
 | `gallery.html` | Photo grid with a full-screen viewer |
 | `styles.css` | The look. Colors and fonts are at the very top. |

@@ -7,9 +7,6 @@
 
   var C = window.WEDDING;
   var page = document.body.getAttribute("data-page");
-  // Pages that share a layout can have a variant (e.g. attire + "photos").
-  var variant = document.body.getAttribute("data-variant");
-  var pageKey = variant ? page + "-" + variant : page; // "attire-photos"
   var main = document.getElementById("main");
 
   // If config.js is missing or has a typo, show a helpful message.
@@ -131,9 +128,7 @@
   var NAV = [
     { href: "index.html", label: "Home", id: "home" },
     { href: "schedule.html", label: "Schedule", id: "schedule" },
-    // Two versions for now, until one is chosen. Delete the other line to keep just one.
-    { href: "attire.html", label: "What to Wear: Cartoon", id: "attire" },
-    { href: "attire-photos.html", label: "What to Wear: Photos", id: "attire-photos" },
+    { href: "attire.html", label: "What to Wear", id: "attire" },
     { href: "rsvp.html", label: "RSVP", id: "rsvp" },
     { href: "registry.html", label: "Registry", id: "registry" },
     { href: "gallery.html", label: "Gallery", id: "gallery" },
@@ -142,7 +137,7 @@
   function renderHeader() {
     var header = document.getElementById("site-header");
     var links = NAV.map(function (item) {
-      var current = item.id === pageKey ? ' aria-current="page"' : "";
+      var current = item.id === page ? ' aria-current="page"' : "";
       return '<li><a href="' + item.href + '"' + current + ">" + item.label + "</a></li>";
     }).join("");
 
@@ -184,11 +179,10 @@
 
   function setMeta() {
     var titles = {
-      home: "", rsvp: "RSVP", schedule: "Schedule", registry: "Registry", gallery: "Gallery",
-      attire: "What to Wear", "attire-photos": "What to Wear (Photos)",
+      home: "", rsvp: "RSVP", schedule: "Schedule", attire: "What to Wear", registry: "Registry", gallery: "Gallery",
     };
     var base = C.coupleShortName + " · " + shortDate();
-    document.title = titles[pageKey] ? titles[pageKey] + " · " + C.coupleShortName : base;
+    document.title = titles[page] ? titles[page] + " · " + C.coupleShortName : base;
 
     function setTag(selector, value) {
       var tag = document.querySelector(selector);
@@ -412,38 +406,16 @@
 
   function renderAttire() {
     var sections = Array.isArray(C.attireSections) ? C.attireSections : [];
-    // attire-photos.html sets data-variant="photos" to show real photos instead of drawings.
-    var usePhotos = document.body.getAttribute("data-variant") === "photos";
 
     var html = sections.map(function (section) {
-      var examples = (section.examples || []).map(function (ex) {
-        if (!ex) return null;
-        var photo = usePhotos && ex.photo && isSet(ex.photo.src) ? ex.photo : null;
-        return {
-          src: photo ? photo.src : ex.src,
-          alt: photo ? photo.alt : ex.alt,
-          credit: photo ? photo.credit : "",
-          creditUrl: photo ? photo.creditUrl : "",
-          verdict: ex.verdict,
-          caption: ex.caption,
-          isPhoto: !!photo,
-        };
-      }).filter(function (ex) { return ex && isSet(ex.src); });
-
+      var examples = (section.examples || []).filter(function (ex) { return ex && isSet(ex.src); });
       var cards = examples.map(function (ex) {
         var yes = ex.verdict === "yes";
-        var credit = isSet(ex.credit)
-          ? '<span class="attire-credit">Photo: ' +
-            (isLink(ex.creditUrl)
-              ? '<a href="' + esc(ex.creditUrl) + '" target="_blank" rel="noopener">' + esc(ex.credit) + "</a>"
-              : esc(ex.credit)) +
-            " / Unsplash</span>"
-          : "";
         return (
-          '<figure class="attire-card ' + (yes ? "is-yes" : "is-no") + (ex.isPhoto ? " has-photo" : "") + '">' +
+          '<figure class="attire-card ' + (yes ? "is-yes" : "is-no") + '">' +
           '<span class="attire-badge">' + (yes ? "✓ Approved" : "✕ Absolutely not") + "</span>" +
           '<img src="' + esc(ex.src) + '" alt="' + esc(ex.alt || "") + '" loading="lazy" decoding="async">' +
-          (isSet(ex.caption) ? "<figcaption>" + esc(ex.caption) + credit + "</figcaption>" : credit) +
+          (isSet(ex.caption) ? "<figcaption>" + esc(ex.caption) + "</figcaption>" : "") +
           "</figure>"
         );
       }).join("");

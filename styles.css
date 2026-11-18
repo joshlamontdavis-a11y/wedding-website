@@ -183,7 +183,7 @@ a:hover { color: var(--color-accent-dark); }
 .site-nav a[aria-current="page"] { color: var(--color-accent); }
 
 /* Full menu bar on wider screens (hamburger below this width so all the links fit) */
-@media (min-width: 1140px) {
+@media (min-width: 900px) {
   .nav-toggle { display: none; }
   .site-nav {
     position: static;
@@ -794,20 +794,6 @@ body.no-scroll { overflow: hidden; }
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
 }
-/* Real photos: fill the frame, keeping heads in view */
-.attire-card.has-photo img {
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 3px;
-  background: var(--color-soft);
-}
-.attire-credit {
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 0.72rem;
-  color: var(--color-muted);
-}
-.attire-credit a { color: inherit; }
 .attire-card.is-no .attire-badge { background: var(--color-no); transform: translateX(-50%) rotate(-3deg); }
 
 .attire-link {
