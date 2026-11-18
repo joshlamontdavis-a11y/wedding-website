@@ -174,7 +174,7 @@ window.WEDDING = {
 
   /* ---------- Registry ---------- */
   // Full link to your Amazon registry.
-  amazonRegistryUrl: "",
+  amazonRegistryUrl: "https://www.amazon.com/wedding/guest-view/1HTJ5SLT0FEVW",
   // Your Venmo username, without the @. e.g. "Joshua-Davis-1258"
   venmoUsername: "Joshua-Davis-1258",
   registryThankYou:
