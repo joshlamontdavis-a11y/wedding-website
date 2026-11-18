@@ -50,13 +50,15 @@ window.WEDDING = {
   slideshowSeconds: 6,
 
   /* ---------- RSVP ---------- */
-  // Your Google Form's normal link (Send > link icon). Opens in a new tab.
-  rsvpFormUrl: "",
+  // Where the "RSVP Now" button goes (opens in a new tab). Either a full web link
+  // or a page in this folder. rsvp-form.html is your RSVP form connected to the
+  // Google Sheet; its own settings (deadline, help text) are at the bottom of that file.
+  rsvpFormUrl: "rsvp-form.html",
   // Optional: the form's EMBED link (Send > <> icon, copy just the src="..." address).
   // When set, the form also appears right on the RSVP page.
   rsvpEmbedUrl: "",
   // Optional, e.g. "Please RSVP by February 1st". Hidden when empty.
-  rsvpDeadline: "",
+  rsvpDeadline: "Please RSVP by February 15th",
   rsvpMessage: "We can't wait to celebrate with you. Please let us know if you'll be joining us.",
 
   /* ---------- Schedule ---------- */

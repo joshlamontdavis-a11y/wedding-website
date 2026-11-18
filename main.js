@@ -40,6 +40,11 @@
     return isSet(value) && /^https?:\/\//i.test(value.trim());
   }
 
+  // True for a web link OR a page inside this site, like "rsvp-form.html".
+  function isLinkOrPage(value) {
+    return isLink(value) || (isSet(value) && /^[\w-]+\.html?$/i.test(value.trim()));
+  }
+
   // Turn a photo entry (a "path" or { src, alt }) into { src, alt, caption }.
   function normalizePhoto(p) {
     if (typeof p === "string") p = { src: p };
@@ -367,7 +372,7 @@
   /* ---------------- RSVP page ---------------- */
 
   function renderRsvp() {
-    var hasForm = isLink(C.rsvpFormUrl);
+    var hasForm = isLinkOrPage(C.rsvpFormUrl);
     var hasEmbed = isLink(C.rsvpEmbedUrl);
     var body;
 

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Colors and fonts. Change these to match the rest of the site. */
+  :root {
+    --rsvp-bg: #faf7f2;
+    --rsvp-card: #ffffff;
+    --rsvp-ink: #38332e;
+    --rsvp-muted: #7b7268;
+    --rsvp-line: #e6dfd4;
+    --rsvp-accent: #6f8160;
+    --rsvp-accent-dark: #58694b;
+    --rsvp-accent-soft: #eef1ea;
+    --rsvp-decline: #ece6de;
+    --rsvp-error: #a3483a;
+    --rsvp-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --rsvp-sans: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body { margin: 0; background: var(--rsvp-bg); }
+
+  .rsvp {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+    font-family: var(--rsvp-sans);
+    color: var(--rsvp-ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .rsvp *, .rsvp *::before, .rsvp *::after { box-sizing: border-box; }
+  .rsvp [hidden] { display: none !important; }
+
+  .rsvp-head { text-align: center; margin-bottom: 32px; }
+  .rsvp-eyebrow { margin: 0; font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--rsvp-muted); }
+  .rsvp-head h1 { margin: 6px 0 4px; font-family: var(--rsvp-serif); font-weight: 500; font-size: clamp(44px, 9vw, 64px); line-height: 1.05; }
+  .rsvp-dateline { margin: 0; font-family: var(--rsvp-serif); font-style: italic; font-size: 20px; color: var(--rsvp-muted); }
+
+  .rsvp-card {
+    background: var(--rsvp-card);
+    border: 1px solid var(--rsvp-line);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 1px 2px rgba(56, 51, 46, .04), 0 8px 28px rgba(56, 51, 46, .05);
+  }
+  .rsvp-step { animation: rsvp-in .35s ease both; }
+  @keyframes rsvp-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .rsvp-title { margin: 0 0 6px; font-family: var(--rsvp-serif); font-weight: 600; font-size: 32px; line-height: 1.15; outline: none; }
+  .rsvp-help { margin: 0 0 22px; color: var(--rsvp-muted); }
+  .rsvp-center { text-align: center; }
+
+  .rsvp-label { display: block; margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+  .rsvp-label span { font-weight: 400; color: var(--rsvp-muted); }
+  .rsvp-input {
+    width: 100%;
+    padding: 14px 16px;
+    font: inherit;
+    font-size: 17px;
+    color: var(--rsvp-ink);
+    background: #fff;
+    border: 1px solid var(--rsvp-line);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .rsvp-input:focus { outline: none; border-color: var(--rsvp-accent); box-shadow: 0 0 0 3px var(--rsvp-accent-soft); }
+  textarea.rsvp-input { resize: vertical; min-height: 90px; }
+
+  .rsvp-btn {
+    display: block;
+    width: 100%;
+    padding: 15px 28px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--rsvp-accent);
+    color: #fff;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+  }
+  .rsvp-btn:hover { background: var(--rsvp-accent-dark); }
+  .rsvp-btn:active { transform: translateY(1px); }
+  .rsvp-btn:disabled { opacity: .6; cursor: wait; }
+  .rsvp-btn:focus-visible, .rsvp-link:focus-visible, .rsvp-match:focus-visible { outline: 3px solid var(--rsvp-accent-soft); outline-offset: 2px; }
+
+  .rsvp-link {
+    display: block;
+    margin: 18px auto 0;
+    padding: 6px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 15px;
+    color: var(--rsvp-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .rsvp-link:hover { color: var(--rsvp-ink); }
+
+  .rsvp-error { margin: -6px 0 16px; color: var(--rsvp-error); font-size: 15px; }
+  .rsvp-small { margin: 18px 0 0; font-size: 14px; color: var(--rsvp-muted); text-align: center; }
+
+  .rsvp-demo {
+    margin: 0 0 20px;
+    padding: 12px 16px;
+    border: 1px dashed var(--rsvp-accent);
+    border-radius: 10px;
+    background: var(--rsvp-accent-soft);
+    font-size: 14px;
+  }
+
+  /* "Is this you?" */
+  .rsvp-matches { display: grid; gap: 12px; margin-top: 18px; }
+  .rsvp-match {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 18px 20px;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    background: #fff;
+    border: 1px solid var(--rsvp-line);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .rsvp-match:hover { border-color: var(--rsvp-accent); background: var(--rsvp-accent-soft); }
+  .rsvp-match-name { display: block; font-family: var(--rsvp-serif); font-size: 24px; font-weight: 600; line-height: 1.2; }
+  .rsvp-match-party { display: block; font-size: 14px; color: var(--rsvp-muted); }
+  .rsvp-match-cta { flex: none; font-size: 14px; font-weight: 700; color: var(--rsvp-accent-dark); white-space: nowrap; }
+
+  /* Event cards */
+  .rsvp-event { margin: 0 0 18px; padding: 22px 20px 10px; border: 1px solid var(--rsvp-line); border-radius: 12px; min-width: 0; }
+  .rsvp-event legend { padding: 0; float: left; width: 100%; font-family: var(--rsvp-serif); font-size: 27px; font-weight: 600; line-height: 1.15; }
+  .rsvp-event legend + * { clear: both; }
+  .rsvp-when { margin: 6px 0 0; font-weight: 700; font-size: 15px; }
+  .rsvp-where { margin: 2px 0 0; color: var(--rsvp-muted); font-size: 15px; }
+  .rsvp-note { display: inline-block; margin: 10px 0 0; padding: 6px 12px; border-radius: 8px; background: var(--rsvp-accent-soft); font-size: 14px; }
+  .rsvp-all { display: inline-block; margin: 12px 0 0; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; color: var(--rsvp-accent-dark); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .rsvp-guests { margin-top: 14px; border-top: 1px solid var(--rsvp-line); }
+  .rsvp-guest { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 0; border-bottom: 1px solid var(--rsvp-line); }
+  .rsvp-guest:last-child { border-bottom: 0; }
+  .rsvp-guest-name { font-weight: 700; }
+  .rsvp-choices { display: flex; gap: 8px; }
+  .rsvp-choice { position: relative; cursor: pointer; }
+  .rsvp-choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .rsvp-choice span {
+    display: inline-block;
+    padding: 9px 16px;
+    border: 1px solid var(--rsvp-line);
+    border-radius: 999px;
+    font-size: 15px;
+    background: #fff;
+    transition: background .15s, border-color .15s, color .15s;
+    user-select: none;
+  }
+  .rsvp-choice:hover span { border-color: var(--rsvp-accent); }
+  .rsvp-choice input:focus-visible + span { outline: 3px solid var(--rsvp-accent-soft); outline-offset: 2px; }
+  .rsvp-choice.yes input:checked + span { background: var(--rsvp-accent); border-color: var(--rsvp-accent); color: #fff; }
+  .rsvp-choice.no input:checked + span { background: var(--rsvp-decline); border-color: #cfc5b8; color: var(--rsvp-ink); }
+  .rsvp-guest.rsvp-missing .rsvp-choice span { border-color: var(--rsvp-error); }
+  .rsvp-guest.rsvp-missing .rsvp-guest-name::after { content: "Please choose one"; display: block; font-weight: 400; font-size: 13px; color: var(--rsvp-error); }
+
+  .rsvp-extra { margin-top: 26px; }
+
+  /* Thank-you */
+  .rsvp-check {
+    width: 56px; height: 56px; margin: 0 auto 14px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--rsvp-accent-soft);
+    color: var(--rsvp-accent-dark);
+    font-size: 28px;
+  }
+  .rsvp-summary { list-style: none; margin: 18px 0 0; padding: 0; text-align: left; border-top: 1px solid var(--rsvp-line); }
+  .rsvp-summary li { padding: 12px 0; border-bottom: 1px solid var(--rsvp-line); }
+  .rsvp-summary strong { display: block; }
+  .rsvp-summary span { color: var(--rsvp-muted); font-size: 15px; }
+
+  @media (max-width: 520px) {
+    .rsvp { padding-top: 32px; }
+    .rsvp-card { padding: 26px 18px; }
+    .rsvp-event { padding: 18px 16px 8px; }
+    .rsvp-guest { flex-direction: column; align-items: flex-start; }
+    .rsvp-choices { width: 100%; }
+    .rsvp-choice { flex: 1; }
+    .rsvp-choice span { display: block; text-align: center; }
+    .rsvp-match-cta { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .rsvp-step { animation: none; } }
+</style>
+</head>
+<body>
+
+<main class="rsvp" id="rsvp">
+  <header class="rsvp-head">
+    <p class="rsvp-eyebrow" id="rsvp-couple"></p>
+    <h1>RSVP</h1>
+    <p class="rsvp-dateline" id="rsvp-dateline"></p>
+  </header>
+
+  <p class="rsvp-demo" id="rsvp-demo" hidden>
+    <strong>Preview mode.</strong> This page is using sample guests until you paste your Apps Script URL into the settings.
+    Try typing <em>Jon Sampel</em>, <em>Kate Exampel</em>, or <em>Bob Demo</em>.
+  </p>
+
+  <!-- Step 1: type a name -->
+  <section class="rsvp-step" data-step="find">
+    <div class="rsvp-card">
+      <h2 class="rsvp-title" tabindex="-1">Find your invitation</h2>
+      <p class="rsvp-help">Enter your first and last name. If you're replying for your family, any one name will do.</p>
+      <form id="rsvp-find" novalidate>
+        <label class="rsvp-label" for="rsvp-name">Your name</label>
+        <input class="rsvp-input" id="rsvp-name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="First and last name">
+        <p class="rsvp-error" id="rsvp-find-error" role="alert" hidden></p>
+        <button class="rsvp-btn" type="submit">Find my invitation</button>
+      </form>
+      <p class="rsvp-small" id="rsvp-deadline" hidden></p>
+    </div>
+  </section>
+
+  <!-- Step 2: "Is this you?" -->
+  <section class="rsvp-step" data-step="matches" hidden>
+    <div class="rsvp-card">
+      <h2 class="rsvp-title" tabindex="-1" id="rsvp-matches-title">Is this you?</h2>
+      <p class="rsvp-help" id="rsvp-matches-help"></p>
+      <div class="rsvp-matches" id="rsvp-match-list"></div>
+      <p class="rsvp-small" id="rsvp-matches-contact" hidden></p>
+      <button class="rsvp-link" type="button" data-action="restart" id="rsvp-matches-again">None of these. Search again</button>
+    </div>
+  </section>
+
+  <!-- Step 3: the RSVP itself -->
+  <section class="rsvp-step" data-step="form" hidden>
+    <div class="rsvp-card">
+      <h2 class="rsvp-title" tabindex="-1" id="rsvp-party"></h2>
+      <p class="rsvp-help" id="rsvp-form-intro"></p>
+      <form id="rsvp-form" novalidate>
+        <div id="rsvp-events"></div>
+        <div class="rsvp-extra">
+          <label class="rsvp-label" for="rsvp-email">Email <span>(optional, in case we need to send updates)</span></label>
+          <input class="rsvp-input" id="rsvp-email" type="email" autocomplete="email" maxlength="200">
+          <label class="rsvp-label" for="rsvp-message">Note for the couple <span>(optional)</span></label>
+          <textarea class="rsvp-input" id="rsvp-message" rows="3" maxlength="2000"></textarea>
+        </div>
+        <p class="rsvp-error" id="rsvp-form-error" role="alert" hidden></p>
+        <button class="rsvp-btn" type="submit">Send RSVP</button>
+      </form>
+      <button class="rsvp-link" type="button" data-action="restart">Not you? Start over</button>
+    </div>
+  </section>
+
+  <!-- Step 4: thank you -->
+  <section class="rsvp-step" data-step="done" hidden>
+    <div class="rsvp-card rsvp-center">
+      <div class="rsvp-check" aria-hidden="true">&#10003;</div>
+      <h2 class="rsvp-title" tabindex="-1">Thank you!</h2>
+      <p class="rsvp-help" id="rsvp-done-text"></p>
+      <ul class="rsvp-summary" id="rsvp-summary"></ul>
+      <button class="rsvp-link" type="button" data-action="edit">Change my answers</button>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ======================= SETTINGS ======================= */
+const RSVP_CONFIG = {
+  // Paste the Web app URL from Apps Script here (it ends in /exec).
+  // While this is blank, the page runs in preview mode with sample guests.
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbz4xqxvLmFWILVs7QIxd945GWKx6HQ6eRhs3Azkdt2rkWu6K0vhj-mhUFDePUQr2kdY/exec',
+
+  couple: 'Josh & Charlotte',
+  dateLine: 'Friday, April 23, 2027',
+
+  // Optional. Hidden when blank.
+  deadline: 'February 15th',   // e.g. 'March 23, 2027'
+  helpText: 'Stuck? Text Josh at (714) 675-3150.',   // e.g. 'Still stuck? Text Josh at (555) 555-5555.'
+};
+
+(function () {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const root = $('rsvp');
+  const state = { token: null, party: null, events: [], previous: null };
+
+  /* ---------- small helpers ---------- */
+
+  function el(tag, attrs, ...children) {
+    const node = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => {
+      if (v === false || v == null) return;
+      if (k === 'class') node.className = v;
+      else if (k === 'text') node.textContent = v;
+      else node.setAttribute(k, v === true ? '' : v);
+    });
+    children.flat().forEach((c) => c != null && node.append(c));
+    return node;
+  }
+
+  function show(step) {
+    root.querySelectorAll('[data-step]').forEach((s) => { s.hidden = s.dataset.step !== step; });
+    const section = root.querySelector('[data-step="' + step + '"]');
+    const title = section.querySelector('.rsvp-title');
+    if (title) title.focus({ preventScroll: true });
+    const top = root.getBoundingClientRect().top + window.scrollY - 16;
+    if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+
+  function setError(node, text) {
+    node.textContent = text || '';
+    node.hidden = !text;
+  }
+
+  function busy(button, on, label) {
+    if (on) { button.dataset.label = button.textContent; button.textContent = label; button.disabled = true; }
+    else { button.textContent = button.dataset.label || button.textContent; button.disabled = false; }
+  }
+
+  function friendlyError(code) {
+    const help = RSVP_CONFIG.helpText ? ' ' + RSVP_CONFIG.helpText : '';
+    if (code === 'need_full_name') return 'Please enter your first and last name.';
+    if (code === 'closed') return 'RSVPs are now closed.' + help;
+    if (code === 'not_found') return "We couldn't find that invitation anymore. Please start over and search again." + help;
+    return 'Something went wrong on our end. Please try again in a minute.' + help;
+  }
+
+  /* ---------- talking to the Google Sheet ---------- */
+
+  async function api(action, params) {
+    if (!RSVP_CONFIG.scriptUrl) return demoApi(action, params);
+    let res;
+    if (action === 'submit') {
+      // Sent as plain text on purpose: Apps Script accepts it without a CORS preflight.
+      res = await fetch(RSVP_CONFIG.scriptUrl, {
+        method: 'POST',
+        body: JSON.stringify(Object.assign({ action: action }, params)),
+      });
+    } else {
+      const qs = new URLSearchParams(Object.assign({ action: action }, params));
+      res = await fetch(RSVP_CONFIG.scriptUrl + '?' + qs.toString());
+    }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  // Each "Is this you?" match starts loading its invitation right away,
+  // so tapping your name doesn't have to wait on Google.
+  let prefetched = {};
+  function loadParty(token) {
+    if (!prefetched[token]) {
+      prefetched[token] = api('party', { token: token });
+      prefetched[token].catch(() => { delete prefetched[token]; });
+    }
+    return prefetched[token];
+  }
+
+  /* ---------- step 1: find ---------- */
+
+  $('rsvp-find').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = $('rsvp-name');
+    const errorBox = $('rsvp-find-error');
+    const button = e.target.querySelector('button');
+    const name = input.value.trim().replace(/\s+/g, ' ');
+    if (name.split(' ').length < 2) {
+      setError(errorBox, friendlyError('need_full_name'));
+      input.focus();
+      return;
+    }
+    setError(errorBox, '');
+    busy(button, true, 'Searching…');
+    try {
+      const data = await api('lookup', { name: name });
+      if (!data.ok) { setError(errorBox, friendlyError(data.error)); return; }
+      renderMatches(data.matches || []);
+      show('matches');
+    } catch (err) {
+      console.error(err);
+      setError(errorBox, friendlyError());
+    } finally {
+      busy(button, false);
+    }
+  });
+
+  /* ---------- step 2: is this you? ---------- */
+
+  function renderMatches(matches) {
+    const list = $('rsvp-match-list');
+    const contact = $('rsvp-matches-contact');
+    list.textContent = '';
+    contact.textContent = RSVP_CONFIG.helpText;
+    contact.hidden = !RSVP_CONFIG.helpText;
+
+    if (!matches.length) {
+      $('rsvp-matches-title').textContent = "We couldn't find that name";
+      $('rsvp-matches-help').textContent =
+        'Try the spelling from your invitation, or your full first name instead of a nickname.';
+      $('rsvp-matches-again').textContent = 'Try again';
+      return;
+    }
+    $('rsvp-matches-title').textContent = 'Is this you?';
+    $('rsvp-matches-help').textContent = 'Tap your name to continue.';
+    $('rsvp-matches-again').textContent = matches.length > 1 ? 'None of these. Search again' : "That's not me. Search again";
+
+    matches.forEach((m) => {
+      const btn = el('button', { class: 'rsvp-match', type: 'button' },
+        el('span', {},
+          el('span', { class: 'rsvp-match-name', text: m.name }),
+          m.party ? el('span', { class: 'rsvp-match-party', text: m.party }) : null),
+        el('span', { class: 'rsvp-match-cta', text: "Yes, that's me →" }));
+      btn.addEventListener('click', () => choose(m.token, btn));
+      list.append(btn);
+      loadParty(m.token);
+    });
+  }
+
+  async function choose(token, btn) {
+    const all = root.querySelectorAll('.rsvp-match');
+    all.forEach((b) => { b.disabled = true; });
+    btn.querySelector('.rsvp-match-cta').textContent = 'Loading…';
+    try {
+      const data = await loadParty(token);
+      if (!data.ok) { delete prefetched[token]; throw new Error(data.error); }
+      state.token = token;
+      state.party = data.party;
+      state.events = data.events;
+      state.previous = data.previous;
+      state.open = data.open !== false;
+      renderForm();
+      show('form');
+    } catch (err) {
+      console.error(err);
+      $('rsvp-matches-help').textContent = friendlyError(err.message);
+    } finally {
+      all.forEach((b) => { b.disabled = false; });
+      btn.querySelector('.rsvp-match-cta').textContent = "Yes, that's me →";
+    }
+  }
+
+  /* ---------- step 3: the form ---------- */
+
+  function renderForm() {
+    const { party, events, previous } = state;
+    const many = party.members.length > 1;
+    $('rsvp-party').textContent = party.label;
+
+    let intro = many
+      ? "You're replying for " + party.members.length + ' guests. Please choose for each person.'
+      : 'Please let us know if you can make it.';
+    if (previous) intro = "We have your RSVP" + (previous.updated ? ' from ' + previous.updated : '') + '. You can change any answer below.';
+    if (!state.open) intro = friendlyError('closed');
+    $('rsvp-form-intro').textContent = intro;
+
+    const wrap = $('rsvp-events');
+    wrap.textContent = '';
+    events.forEach((ev, ei) => {
+      const members = party.members.filter((m) => m.invited.indexOf(ev.name) >= 0);
+      const guestList = el('div', { class: 'rsvp-guests' });
+
+      members.forEach((m) => {
+        const mi = party.members.indexOf(m);
+        const group = 'a-' + mi + '-' + ei;
+        const prev = previous && previous.answers && previous.answers[m.name]
+          ? previous.answers[m.name][ev.name] : undefined;
+        const row = el('div', { class: 'rsvp-guest', 'data-group': group },
+          el('span', { class: 'rsvp-guest-name', id: group + '-label', text: m.name }),
+          el('div', { class: 'rsvp-choices', role: 'radiogroup', 'aria-labelledby': group + '-label' },
+            el('label', { class: 'rsvp-choice yes' },
+              el('input', { type: 'radio', name: group, value: 'yes', checked: prev === true }),
+              el('span', { text: 'Will attend' })),
+            el('label', { class: 'rsvp-choice no' },
+              el('input', { type: 'radio', name: group, value: 'no', checked: prev === false }),
+              el('span', { text: "Can't attend" }))));
+        guestList.append(row);
+      });
+
+      const card = el('fieldset', { class: 'rsvp-event' },
+        el('legend', { text: ev.name }),
+        ev.when ? el('p', { class: 'rsvp-when', text: ev.when }) : null,
+        ev.where ? el('p', { class: 'rsvp-where', text: ev.where }) : null,
+        ev.note ? el('p', { class: 'rsvp-note', text: ev.note }) : null);
+
+      if (members.length > 1) {
+        const all = el('button', { class: 'rsvp-all', type: 'button', text: 'Everyone will attend' });
+        all.addEventListener('click', () => {
+          guestList.querySelectorAll('input[value="yes"]').forEach((r) => {
+            r.checked = true;
+            r.closest('.rsvp-guest').classList.remove('rsvp-missing');
+          });
+        });
+        card.append(el('div', {}, all));
+      }
+      card.append(guestList);
+      wrap.append(card);
+    });
+
+    $('rsvp-email').value = (previous && previous.email) || '';
+    $('rsvp-message').value = (previous && previous.message) || '';
+    setError($('rsvp-form-error'), '');
+  }
+
+  $('rsvp-form').addEventListener('change', (e) => {
+    const row = e.target.closest('.rsvp-guest');
+    if (row) row.classList.remove('rsvp-missing');
+  });
+
+  function collectAnswers() {
+    const form = $('rsvp-form');
+    const answers = {};
+    const missing = [];
+    state.party.members.forEach((m, mi) => {
+      answers[m.name] = {};
+      state.events.forEach((ev, ei) => {
+        if (m.invited.indexOf(ev.name) < 0) return;
+        const group = 'a-' + mi + '-' + ei;
+        const picked = form.querySelector('input[name="' + group + '"]:checked');
+        if (picked) answers[m.name][ev.name] = picked.value === 'yes';
+        else missing.push(group);
+      });
+    });
+    return { answers: answers, missing: missing };
+  }
+
+  $('rsvp-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errorBox = $('rsvp-form-error');
+    const button = e.target.querySelector('button[type="submit"]');
+    if (!state.open) { setError(errorBox, friendlyError('closed')); return; }
+
+    const { answers, missing } = collectAnswers();
+    root.querySelectorAll('.rsvp-guest').forEach((r) => {
+      r.classList.toggle('rsvp-missing', missing.indexOf(r.dataset.group) >= 0);
+    });
+    if (missing.length) {
+      setError(errorBox, 'Please choose "Will attend" or "Can\'t attend" for everyone listed.');
+      const first = root.querySelector('.rsvp-missing');
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    setError(errorBox, '');
+
+    const email = $('rsvp-email').value.trim();
+    const message = $('rsvp-message').value.trim();
+    busy(button, true, 'Sending…');
+    try {
+      const data = await api('submit', { token: state.token, answers: answers, email: email, message: message });
+      if (!data.ok) { setError(errorBox, friendlyError(data.error)); return; }
+      state.previous = { answers: answers, email: email, message: message, updated: '' };
+      prefetched = {}; // answers changed, so don't reuse old invitation data
+      renderDone(answers);
+      show('done');
+    } catch (err) {
+      console.error(err);
+      setError(errorBox, friendlyError());
+    } finally {
+      busy(button, false);
+    }
+  });
+
+  /* ---------- step 4: thank you ---------- */
+
+  function renderDone(answers) {
+    const list = $('rsvp-summary');
+    list.textContent = '';
+    let anyYes = false;
+    state.party.members.forEach((m) => {
+      const yes = state.events.filter((ev) => answers[m.name] && answers[m.name][ev.name] === true).map((ev) => ev.name);
+      if (yes.length) anyYes = true;
+      list.append(el('li', {},
+        el('strong', { text: m.name }),
+        el('span', { text: yes.length ? 'Attending: ' + yes.join(', ') : 'Not attending' })));
+    });
+    $('rsvp-done-text').textContent = anyYes
+      ? "Your RSVP is in. We can't wait to celebrate with you!"
+      : "We'll miss you. Thank you for letting us know.";
+  }
+
+  /* ---------- buttons that go back ---------- */
+
+  root.addEventListener('click', (e) => {
+    const action = e.target.closest('[data-action]');
+    if (!action) return;
+    if (action.dataset.action === 'restart') {
+      state.token = null; state.party = null; state.previous = null;
+      $('rsvp-name').value = '';
+      setError($('rsvp-find-error'), '');
+      show('find');
+      $('rsvp-name').focus();
+    } else if (action.dataset.action === 'edit') {
+      renderForm();
+      show('form');
+    }
+  });
+
+  /* ---------- page text from settings ---------- */
+
+  $('rsvp-couple').textContent = RSVP_CONFIG.couple;
+  $('rsvp-dateline').textContent = RSVP_CONFIG.dateLine;
+  if (RSVP_CONFIG.deadline) {
+    $('rsvp-deadline').textContent = 'Kindly reply by ' + RSVP_CONFIG.deadline + '.';
+    $('rsvp-deadline').hidden = false;
+  }
+  $('rsvp-demo').hidden = !!RSVP_CONFIG.scriptUrl;
+
+  // Wake the Google script up while the guest is still typing their name.
+  // The first request after a quiet stretch is the slowest one.
+  if (RSVP_CONFIG.scriptUrl) api('ping', {}).catch(() => {});
+
+  /* =================================================================
+     PREVIEW MODE ONLY. Used while scriptUrl is blank, so you can click
+     through the page with sample guests. The real guest list lives in
+     your Google Sheet and never loads in the browser.
+     ================================================================= */
+
+  const DEMO = {
+    events: [
+      { name: 'Sealing', when: 'Friday, April 23, 2027 · 11:30 AM to 12:30 PM', where: 'Payson Utah Temple, 1494 S 930 W, Payson, UT 84651', note: 'Please arrive 30 minutes early (by 11:00 AM).' },
+      { name: 'Ring Ceremony', when: 'Friday, April 23, 2027 · 4:00 to 6:00 PM', where: 'Northampton House, 198 W 300 N, American Fork, UT 84003', note: '' },
+      { name: 'Reception', when: 'Friday, April 23, 2027 · Following the ring ceremony', where: 'Northampton House, 198 W 300 N, American Fork, UT 84003', note: '' },
+    ],
+    guests: [
+      { name: 'John Sample', party: 'The Sample Family', others: ['Johnny Sample'], invited: ['Sealing', 'Ring Ceremony', 'Reception'] },
+      { name: 'Jane Sample', party: 'The Sample Family', others: [], invited: ['Sealing', 'Ring Ceremony', 'Reception'] },
+      { name: 'Katherine Example', party: '', others: ['Kate Example'], invited: ['Reception'] },
+      { name: 'Robert Demo', party: 'The Demo Family', others: ['Bob Demo'], invited: ['Ring Ceremony', 'Reception'] },
+      { name: 'Lily Demo', party: 'The Demo Family', others: [], invited: ['Reception'] },
+    ],
+    saved: {},
+  };
+
+  function demoParties() {
+    const parties = {};
+    DEMO.guests.forEach((g) => {
+      const label = g.party || g.name;
+      const key = label.toLowerCase();
+      if (!parties[key]) parties[key] = { key: key, label: label, members: [] };
+      parties[key].members.push(g);
+    });
+    return parties;
+  }
+
+  function demoApi(action, p) {
+    return new Promise((resolve) => setTimeout(() => resolve(demoHandle(action, p)), 450));
+  }
+
+  function demoHandle(action, p) {
+    const parties = demoParties();
+    if (action === 'lookup') {
+      const query = normalizeName(p.name);
+      if (query.split(' ').length < 2) return { ok: false, error: 'need_full_name' };
+      const best = {};
+      DEMO.guests.forEach((g) => {
+        const key = (g.party || g.name).toLowerCase();
+        const score = Math.max.apply(null, [g.name].concat(g.others).map((n) => nameScore(query, n)));
+        if (score >= 0.75 && (!best[key] || score > best[key].score)) best[key] = { score: score, guest: g, key: key };
+      });
+      let list = Object.values(best).sort((a, b) => b.score - a.score);
+      if (list.length && list[0].score >= 0.98) list = list.filter((m) => m.score >= 0.98);
+      return {
+        ok: true,
+        matches: list.slice(0, 3).map((m) => {
+          const party = parties[m.key];
+          return { token: 'demo:' + m.key, name: m.guest.name, party: party.members.length > 1 && party.label !== m.guest.name ? party.label : '' };
+        }),
+      };
+    }
+    const key = String(p.token || '').replace(/^demo:/, '');
+    const party = parties[key];
+    if (!party) return { ok: false, error: 'not_found' };
+    if (action === 'party') {
+      return {
+        ok: true,
+        open: true,
+        party: { label: party.label, members: party.members.map((m) => ({ name: m.name, invited: m.invited })) },
+        events: DEMO.events.filter((ev) => party.members.some((m) => m.invited.indexOf(ev.name) >= 0)),
+        previous: DEMO.saved[key] || null,
+      };
+    }
+    if (action === 'submit') {
+      DEMO.saved[key] = { answers: p.answers, email: p.email, message: p.message, updated: new Date().toLocaleString() };
+      return { ok: true };
+    }
+    return { ok: false, error: 'unknown_action' };
+  }
+
+  // Same name matching the Apps Script uses, so the preview behaves like the real thing.
+  const NAME_NOISE = ['mr', 'mrs', 'ms', 'miss', 'dr', 'jr', 'sr', 'ii', 'iii', 'iv'];
+  function normalizeName(s) {
+    let t = String(s || '');
+    if (typeof t.normalize === 'function') t = t.normalize('NFD');
+    return t.replace(/[̀-ͯ]/g, '').toLowerCase().replace(/['’`]/g, '')
+      .replace(/[^a-z]+/g, ' ').trim().split(' ')
+      .filter((w) => w && NAME_NOISE.indexOf(w) < 0).join(' ');
+  }
+  function editDistance(a, b) {
+    const m = a.length, n = b.length;
+    if (!m) return n;
+    if (!n) return m;
+    const d = [];
+    for (let i = 0; i <= m; i++) d[i] = [i];
+    for (let j = 0; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+      }
+    }
+    return d[m][n];
+  }
+  function similarity(a, b) {
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+    return 1 - editDistance(a, b) / Math.max(a.length, b.length);
+  }
+  function firstNameSim(a, b) {
+    let s = similarity(a, b);
+    const shorter = a.length <= b.length ? a : b;
+    const longer = shorter === a ? b : a;
+    if (shorter.length >= 3 && longer.indexOf(shorter) === 0) s = Math.max(s, 0.9);
+    return s;
+  }
+  function nameScore(query, candidate) {
+    const q = normalizeName(query).split(' ').filter(Boolean);
+    const c = normalizeName(candidate).split(' ').filter(Boolean);
+    if (q.length < 2 || !c.length) return 0;
+    const pair = (qFirst, qLast) => {
+      const f = firstNameSim(qFirst, c[0]);
+      const l = similarity(qLast, c[c.length - 1]);
+      return Math.min(f, l) >= 0.6 ? (f + l) / 2 : 0;
+    };
+    const inOrder = pair(q[0], q[q.length - 1]);
+    const swapped = pair(q[q.length - 1], q[0]) * 0.95;
+    let total = 0, worst = 1;
+    q.forEach((w) => {
+      const b = Math.max.apply(null, c.map((x) => similarity(w, x)));
+      total += b;
+      worst = Math.min(worst, b);
+    });
+    const words = worst >= 0.75 ? total / q.length : 0;
+    return Math.max(inOrder, swapped, words);
+  }
+})();
+</script>
+</body>
+</html>

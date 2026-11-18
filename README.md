@@ -14,7 +14,8 @@ times, and photos from there.
 |---|---|
 | `config.js` | **All your content.** Names, date, links, schedule, photo lists. |
 | `index.html` | Home page: photo slideshow, names, date, countdown |
-| `rsvp.html` | RSVP page (your Google Form) |
+| `rsvp.html` | RSVP page on the main site, with the "RSVP Now" button |
+| `rsvp-form.html` | Your RSVP form (connected to your Google Sheet), opened in a new tab |
 | `schedule.html` | Timeline of the day, with directions and add-to-calendar |
 | `attire.html` | What to Wear: the dress code, with funny yes/no pictures |
 | `registry.html` | Amazon registry and Venmo |
@@ -82,12 +83,26 @@ The countdown counts down to the start of the first event (the sealing at 11:30 
 
 | Setting | What goes there | Current value |
 |---|---|---|
-| `rsvpFormUrl` | Your Google Form link. Shows a big **RSVP Now** button that opens in a new tab. | *empty* → "RSVP form coming soon" |
+| `rsvpFormUrl` | Where the big **RSVP Now** button goes (opens in a new tab): a full web link, or a page in this folder. | `rsvp-form.html` |
 | `rsvpEmbedUrl` | Optional. The form's *embed* link, to show the form right on the page too. | *empty* |
 | `rsvpDeadline` | Optional, e.g. `"Please RSVP by February 1st"`. Hidden when empty. | *empty* |
 | `rsvpMessage` | Short line above the button | filled in |
 
-How to get the Google Form links:
+**Your RSVP form (`rsvp-form.html`).** This is a standalone page with its own look, on
+purpose, so it feels separate from the main site. Guests type their name, pick their
+invitation, and answer for each event. Answers go to your Google Sheet through the Apps Script
+web app. Its settings live in the `RSVP_CONFIG` block near the bottom of that file:
+
+- `scriptUrl`: your Apps Script web app link (ends in `/exec`). If blank, the page shows a
+  preview with sample guests.
+- `couple`, `dateLine`: the text at the top.
+- `deadline`: shown as "Kindly reply by ...". Hidden when blank.
+- `helpText`: shown when a guest gets stuck. It's public, so only put contact info there you're
+  happy for guests to see.
+
+Its colors are at the top of the file under `:root` (the `--rsvp-...` values).
+
+To use a Google Form instead, set `rsvpFormUrl` to the form's link:
 1. Open your form and click **Send**.
 2. For `rsvpFormUrl`: click the link icon 🔗, check "Shorten URL" if you like, and copy it.
 3. For `rsvpEmbedUrl`: click the `< >` icon. You'll see code like
