@@ -7,6 +7,9 @@
 
   var C = window.WEDDING;
   var page = document.body.getAttribute("data-page");
+  // Pages that share a layout can have a variant (e.g. attire + "photos").
+  var variant = document.body.getAttribute("data-variant");
+  var pageKey = variant ? page + "-" + variant : page; // "attire-photos"
   var main = document.getElementById("main");
 
   // If config.js is missing or has a typo, show a helpful message.
@@ -128,6 +131,9 @@
   var NAV = [
     { href: "index.html", label: "Home", id: "home" },
     { href: "schedule.html", label: "Schedule", id: "schedule" },
+    // Two versions for now, until one is chosen. Delete the other line to keep just one.
+    { href: "attire.html", label: "What to Wear: Cartoon", id: "attire" },
+    { href: "attire-photos.html", label: "What to Wear: Photos", id: "attire-photos" },
     { href: "rsvp.html", label: "RSVP", id: "rsvp" },
     { href: "registry.html", label: "Registry", id: "registry" },
     { href: "gallery.html", label: "Gallery", id: "gallery" },
@@ -136,7 +142,7 @@
   function renderHeader() {
     var header = document.getElementById("site-header");
     var links = NAV.map(function (item) {
-      var current = item.id === page ? ' aria-current="page"' : "";
+      var current = item.id === pageKey ? ' aria-current="page"' : "";
       return '<li><a href="' + item.href + '"' + current + ">" + item.label + "</a></li>";
     }).join("");
 
@@ -177,9 +183,12 @@
   /* ---------------- Page titles and link previews ---------------- */
 
   function setMeta() {
-    var titles = { home: "", rsvp: "RSVP", schedule: "Schedule", registry: "Registry", gallery: "Gallery" };
+    var titles = {
+      home: "", rsvp: "RSVP", schedule: "Schedule", registry: "Registry", gallery: "Gallery",
+      attire: "What to Wear", "attire-photos": "What to Wear (Photos)",
+    };
     var base = C.coupleShortName + " · " + shortDate();
-    document.title = titles[page] ? titles[page] + " · " + C.coupleShortName : base;
+    document.title = titles[pageKey] ? titles[pageKey] + " · " + C.coupleShortName : base;
 
     function setTag(selector, value) {
       var tag = document.querySelector(selector);
@@ -388,9 +397,76 @@
         comingSoon("RSVP form coming soon", "Check back here soon to let us know if you can make it.", "envelope");
     }
 
+    // A friendly pointer to the dress code page.
+    var attireLink =
+      '<p class="attire-link reveal">Wondering what to wear? ' +
+      '<a href="attire.html">See our dress code</a></p>';
+
     main.innerHTML =
       pageHero("Kindly reply", "RSVP", "") +
-      '<section class="section" style="padding-top:1.5rem"><div class="container narrow">' + body + "</div></section>";
+      '<section class="section" style="padding-top:1.5rem"><div class="container narrow">' +
+      body + attireLink + "</div></section>";
+  }
+
+  /* ---------------- What to Wear page ---------------- */
+
+  function renderAttire() {
+    var sections = Array.isArray(C.attireSections) ? C.attireSections : [];
+    // attire-photos.html sets data-variant="photos" to show real photos instead of drawings.
+    var usePhotos = document.body.getAttribute("data-variant") === "photos";
+
+    var html = sections.map(function (section) {
+      var examples = (section.examples || []).map(function (ex) {
+        if (!ex) return null;
+        var photo = usePhotos && ex.photo && isSet(ex.photo.src) ? ex.photo : null;
+        return {
+          src: photo ? photo.src : ex.src,
+          alt: photo ? photo.alt : ex.alt,
+          credit: photo ? photo.credit : "",
+          creditUrl: photo ? photo.creditUrl : "",
+          verdict: ex.verdict,
+          caption: ex.caption,
+          isPhoto: !!photo,
+        };
+      }).filter(function (ex) { return ex && isSet(ex.src); });
+
+      var cards = examples.map(function (ex) {
+        var yes = ex.verdict === "yes";
+        var credit = isSet(ex.credit)
+          ? '<span class="attire-credit">Photo: ' +
+            (isLink(ex.creditUrl)
+              ? '<a href="' + esc(ex.creditUrl) + '" target="_blank" rel="noopener">' + esc(ex.credit) + "</a>"
+              : esc(ex.credit)) +
+            " / Unsplash</span>"
+          : "";
+        return (
+          '<figure class="attire-card ' + (yes ? "is-yes" : "is-no") + (ex.isPhoto ? " has-photo" : "") + '">' +
+          '<span class="attire-badge">' + (yes ? "✓ Approved" : "✕ Absolutely not") + "</span>" +
+          '<img src="' + esc(ex.src) + '" alt="' + esc(ex.alt || "") + '" loading="lazy" decoding="async">' +
+          (isSet(ex.caption) ? "<figcaption>" + esc(ex.caption) + credit + "</figcaption>" : credit) +
+          "</figure>"
+        );
+      }).join("");
+
+      return (
+        '<section class="attire-section reveal">' +
+        '<h2 class="attire-heading">' + esc(section.heading) + "</h2>" +
+        (isSet(section.rule) ? '<p class="attire-rule">' + esc(section.rule) + "</p>" : "") +
+        (cards ? '<div class="attire-grid">' + cards + "</div>" : "") +
+        "</section>"
+      );
+    }).join("");
+
+    main.innerHTML =
+      pageHero("Dress code", "What to Wear", isSet(C.attireIntro) ? C.attireIntro : "") +
+      '<section class="section" style="padding-top:1.5rem"><div class="container narrow">' +
+      (html || comingSoon("Dress code coming soon", "", "heart")) +
+      "</div></section>";
+
+    // If a picture file is missing, hide it instead of showing a broken image.
+    main.querySelectorAll(".attire-card img").forEach(function (img) {
+      img.onerror = function () { img.closest(".attire-card").remove(); };
+    });
   }
 
   /* ---------------- Schedule page ---------------- */
@@ -740,6 +816,7 @@
     home: renderHome,
     rsvp: renderRsvp,
     schedule: renderSchedule,
+    attire: renderAttire,
     registry: renderRegistry,
     gallery: renderGallery,
   };

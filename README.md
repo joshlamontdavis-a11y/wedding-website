@@ -16,6 +16,8 @@ times, and photos from there.
 | `index.html` | Home page: photo slideshow, names, date, countdown |
 | `rsvp.html` | RSVP page (your Google Form) |
 | `schedule.html` | Timeline of the day, with directions and add-to-calendar |
+| `attire.html` | What to Wear: the dress code, with funny yes/no pictures |
+| `attire-photos.html` | Same page using real photos from Unsplash (the `photo` entries in `config.js`) |
 | `registry.html` | Amazon registry and Venmo |
 | `gallery.html` | Photo grid with a full-screen viewer |
 | `styles.css` | The look. Colors and fonts are at the very top. |
@@ -23,6 +25,7 @@ times, and photos from there.
 | `favicon.svg` | The little icon in the browser tab (a placeholder "J&C" monogram) |
 | `images/announcement/` | Your announcement photos go here |
 | `images/gallery/` | Your gallery photos go here |
+| `images/attire/` | The cartoon outfit pictures on the What to Wear page |
 | `images/og-image.jpg` | The picture shown when the link is texted (placeholder for now) |
 | `images/apple-touch-icon.png` | Icon used if a guest saves the site to their phone's home screen |
 
@@ -111,6 +114,19 @@ ring ceremony" instead, set both `startTime` and `endTime` to `""`.
 "Get Directions" opens Google Maps. "Add to Calendar" offers Google Calendar or a downloadable
 `.ics` file (works with iPhone, Mac, and Outlook calendars). These are built automatically from
 the times and addresses.
+
+**What to Wear**
+
+| Setting | What goes there |
+|---|---|
+| `attireIntro` | The friendly line at the top of the page |
+| `attireSections` | One block per group ("For the Ladies", "For the Gentlemen"). Each has a `heading`, a `rule` (shown in a highlighted box), and `examples`. |
+
+Each example has a picture (`src`), a description for screen readers (`alt`), a `verdict`
+(`"yes"` shows a green **Approved** badge, `"no"` shows a red **Absolutely not** badge), and a
+funny `caption`. The pictures are cartoon drawings in `images/attire/`. To use real photos
+instead, put them in that folder and change the `src`. The RSVP page also links here
+("Wondering what to wear?").
 
 **Registry**
 

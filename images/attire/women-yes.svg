@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="Cartoon guest in a dusty blue midi dress">
+  <!-- Acceptable: a cheerful guest in a dusty blue dress -->
+  <circle cx="120" cy="165" r="112" fill="#eaf0f6"/>
+  <ellipse cx="120" cy="302" rx="62" ry="6" fill="#000" opacity="0.07"/>
+
+  <!-- Legs and shoes -->
+  <path d="M108 246 V290 M132 246 V290" stroke="#f0c9a8" stroke-width="9" stroke-linecap="round"/>
+  <ellipse cx="105" cy="295" rx="10" ry="5" fill="#5a4a42"/>
+  <ellipse cx="135" cy="295" rx="10" ry="5" fill="#5a4a42"/>
+
+  <!-- Arms -->
+  <path d="M101 114 Q90 150 86 190 M139 114 Q150 150 154 190" stroke="#f0c9a8" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+  <!-- Dress -->
+  <path d="M100 110 Q120 103 140 110 L143 150 L168 250 Q120 260 72 250 L97 150 Z" fill="#6d8fb3"/>
+  <path d="M97 150 H143" stroke="#56779b" stroke-width="3"/>
+  <path d="M90 200 Q100 205 110 200 M128 225 Q138 230 148 225 M100 235 Q108 239 116 235" stroke="#8fabc8" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Clutch -->
+  <rect x="148" y="184" width="20" height="13" rx="2.5" fill="#c9a46a"/>
+  <path d="M148 189 H168" stroke="#a8844d" stroke-width="1.5"/>
+
+  <!-- Neck and head -->
+  <rect x="114" y="94" width="12" height="14" fill="#f0c9a8"/>
+  <circle cx="120" cy="78" r="21" fill="#f0c9a8"/>
+  <path d="M99 80 Q97 52 120 53 Q143 52 141 80 Q138 64 120 63 Q102 64 99 80 Z" fill="#6b4a36"/>
+  <circle cx="120" cy="50" r="10" fill="#6b4a36"/>
+
+  <!-- Face -->
+  <circle cx="113" cy="79" r="2.2" fill="#3e3235"/>
+  <circle cx="127" cy="79" r="2.2" fill="#3e3235"/>
+  <circle cx="108" cy="86" r="3.5" fill="#f2a1a1" opacity="0.6"/>
+  <circle cx="132" cy="86" r="3.5" fill="#f2a1a1" opacity="0.6"/>
+  <path d="M113 87 Q120 94 127 87" stroke="#3e3235" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

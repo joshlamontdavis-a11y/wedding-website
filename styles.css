@@ -13,6 +13,8 @@
   --color-accent-dark: #87404d; /* accent on hover */
   --color-accent-soft: #f8e3e6; /* light accent background */
   --color-on-accent: #ffffff;   /* text on accent buttons */
+  --color-yes: #3f7254;         /* "Approved" badges on the What to Wear page */
+  --color-no: #b03a3a;          /* "Absolutely not" badges */
 
   /* Fonts */
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -180,7 +182,8 @@ a:hover { color: var(--color-accent-dark); }
 .site-nav li:last-child a { border-bottom: 0; }
 .site-nav a[aria-current="page"] { color: var(--color-accent); }
 
-@media (min-width: 768px) {
+/* Full menu bar on wider screens (hamburger below this width so all the links fit) */
+@media (min-width: 1140px) {
   .nav-toggle { display: none; }
   .site-nav {
     position: static;
@@ -737,6 +740,82 @@ a:hover { color: var(--color-accent-dark); }
 .lightbox[data-single="true"] .lightbox-next { display: none; }
 
 body.no-scroll { overflow: hidden; }
+
+/* ---------- What to Wear ---------- */
+.attire-section + .attire-section { margin-top: 3.5rem; }
+.attire-heading { font-size: 2.2rem; text-align: center; }
+.attire-rule {
+  text-align: center;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: 500;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius);
+  margin: 0 auto 1.5rem;
+  max-width: 34em;
+}
+.attire-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 768px) { .attire-grid { gap: 1.5rem; } }
+.attire-card {
+  margin: 0;
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-top: 4px solid var(--color-yes);
+  border-radius: var(--radius);
+  padding: 2.6rem 0.6rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.attire-card.is-no { border-top-color: var(--color-no); }
+.attire-card img { width: 100%; height: auto; aspect-ratio: 3 / 4; }
+.attire-card figcaption {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+}
+.attire-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--color-yes);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+/* Real photos: fill the frame, keeping heads in view */
+.attire-card.has-photo img {
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 3px;
+  background: var(--color-soft);
+}
+.attire-credit {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+}
+.attire-credit a { color: inherit; }
+.attire-card.is-no .attire-badge { background: var(--color-no); transform: translateX(-50%) rotate(-3deg); }
+
+.attire-link {
+  text-align: center;
+  margin: 2rem 0 0;
+  color: var(--color-muted);
+}
+.attire-link a { font-weight: 500; }
 
 /* ---------- Fade-in animation ---------- */
 .reveal {

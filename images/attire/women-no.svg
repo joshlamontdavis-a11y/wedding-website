@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="Cartoon guest in a full white wedding gown with a veil, tiara, and bouquet">
+  <!-- Not acceptable: a guest who showed up in a full wedding gown -->
+  <circle cx="120" cy="165" r="112" fill="#f4ecee"/>
+  <ellipse cx="120" cy="304" rx="96" ry="7" fill="#000" opacity="0.07"/>
+
+  <!-- Veil (behind everything) -->
+  <path d="M104 60 Q62 120 46 262 Q70 272 96 262 L120 70 Z" fill="#ffffff" opacity="0.85" stroke="#e6dadd" stroke-width="1.5"/>
+  <path d="M136 60 Q178 120 194 262 Q170 272 144 262 L120 70 Z" fill="#ffffff" opacity="0.85" stroke="#e6dadd" stroke-width="1.5"/>
+
+  <!-- Enormous ball gown -->
+  <path d="M98 148 L142 148 Q196 214 214 296 Q120 314 26 296 Q44 214 98 148 Z" fill="#ffffff" stroke="#e1d3d6" stroke-width="2"/>
+  <path d="M30 292 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0 q8 8 16 0" stroke="#e1d3d6" stroke-width="1.5" fill="none"/>
+  <path d="M86 190 Q120 200 154 190 M66 240 Q120 254 174 240" stroke="#efe5e7" stroke-width="2" fill="none"/>
+
+  <!-- Bodice -->
+  <path d="M101 110 Q120 103 139 110 L142 150 L98 150 Z" fill="#ffffff" stroke="#e1d3d6" stroke-width="2"/>
+  <circle cx="110" cy="128" r="1.6" fill="#e6c98f"/><circle cx="120" cy="134" r="1.6" fill="#e6c98f"/><circle cx="130" cy="128" r="1.6" fill="#e6c98f"/>
+
+  <!-- Arms holding a bouquet -->
+  <path d="M102 114 Q100 140 112 160 M138 114 Q140 140 128 160" stroke="#f0c9a8" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M112 168 L120 192 L128 168" fill="#7a9a6c"/>
+  <circle cx="113" cy="160" r="7" fill="#e88aa3"/>
+  <circle cx="127" cy="160" r="7" fill="#f2b5c4"/>
+  <circle cx="120" cy="153" r="7" fill="#d9667f"/>
+  <circle cx="120" cy="166" r="6" fill="#fbd3dc"/>
+
+  <!-- Neck and head -->
+  <rect x="114" y="94" width="12" height="14" fill="#f0c9a8"/>
+  <circle cx="120" cy="78" r="21" fill="#f0c9a8"/>
+  <path d="M99 82 Q96 52 120 53 Q144 52 141 82 Q138 64 120 63 Q102 64 99 82 Z" fill="#8a5a3c"/>
+
+  <!-- Tiara -->
+  <path d="M106 58 L110 48 L115 56 L120 44 L125 56 L130 48 L134 58 Z" fill="#e6c26a" stroke="#c9a23f" stroke-width="1"/>
+  <circle cx="120" cy="47" r="2" fill="#f7e3a3"/>
+
+  <!-- Smug face: eyes closed, big satisfied smile -->
+  <path d="M109 79 Q113 75 117 79 M123 79 Q127 75 131 79" stroke="#3e3235" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="107" cy="86" r="3.5" fill="#f2a1a1" opacity="0.7"/>
+  <circle cx="133" cy="86" r="3.5" fill="#f2a1a1" opacity="0.7"/>
+  <path d="M111 86 Q120 96 129 86 Z" fill="#a8484f"/>
+
+  <!-- Sparkles -->
+  <g fill="#e6c26a">
+    <path d="M40 70 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3 z"/>
+    <path d="M196 96 l2.5 7 7 2.5 -7 2.5 -2.5 7 -2.5 -7 -7 -2.5 7 -2.5 z"/>
+    <path d="M184 40 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z"/>
+    <path d="M58 150 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z"/>
+  </g>
+</svg>

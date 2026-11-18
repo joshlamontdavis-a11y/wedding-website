@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" role="img" aria-label="Cartoon guest in a classic navy suit with a dark green tie">
+  <!-- Acceptable: a sharp navy suit -->
+  <circle cx="120" cy="165" r="112" fill="#eaeff4"/>
+  <ellipse cx="120" cy="302" rx="58" ry="6" fill="#000" opacity="0.07"/>
+
+  <!-- Pants and shoes -->
+  <rect x="100" y="196" width="18" height="96" rx="3" fill="#29354b"/>
+  <rect x="122" y="196" width="18" height="96" rx="3" fill="#29354b"/>
+  <ellipse cx="106" cy="295" rx="13" ry="5.5" fill="#1f1f1f"/>
+  <ellipse cx="134" cy="295" rx="13" ry="5.5" fill="#1f1f1f"/>
+
+  <!-- Sleeves and hands -->
+  <path d="M99 110 Q89 150 86 194 M141 110 Q151 150 154 194" stroke="#34425e" stroke-width="15" fill="none" stroke-linecap="round"/>
+  <circle cx="86" cy="200" r="6" fill="#e2b590"/>
+  <circle cx="154" cy="200" r="6" fill="#e2b590"/>
+
+  <!-- Jacket -->
+  <path d="M95 104 Q120 96 145 104 L151 204 Q120 210 89 204 Z" fill="#34425e"/>
+  <path d="M110 100 L120 136 L130 100 Z" fill="#ffffff"/>
+  <path d="M110 100 L104 128 L120 146 M130 100 L136 128 L120 146" stroke="#25304a" stroke-width="2" fill="none"/>
+  <path d="M120 146 V204" stroke="#25304a" stroke-width="1.5"/>
+  <circle cx="120" cy="160" r="2.3" fill="#1c2436"/>
+  <circle cx="120" cy="178" r="2.3" fill="#1c2436"/>
+  <path d="M131 124 h10" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Tie -->
+  <path d="M117 103 h6 l1.5 5 h-9 z" fill="#2f5243"/>
+  <path d="M116 108 h8 l3 26 -7 8 -7 -8 z" fill="#3b6653"/>
+
+  <!-- Neck and head -->
+  <rect x="114" y="88" width="12" height="13" fill="#e2b590"/>
+  <circle cx="120" cy="72" r="20" fill="#e2b590"/>
+  <path d="M100 72 Q99 49 120 49 Q141 49 140 72 Q137 59 120 59 Q105 59 100 72 Z" fill="#3b2a20"/>
+
+  <!-- Face -->
+  <circle cx="113" cy="73" r="2.2" fill="#3e3235"/>
+  <circle cx="127" cy="73" r="2.2" fill="#3e3235"/>
+  <path d="M113 81 Q120 87 127 81" stroke="#3e3235" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>
