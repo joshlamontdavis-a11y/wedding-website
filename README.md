@@ -122,7 +122,7 @@ Each event is a block between `{ }`. Events show in the order listed.
 | `highlight` | An important note in a colored box (the sealing's "arrive 30 minutes early") |
 | `note` | Extra guest instructions. Hidden when empty. **On the Sealing, this is the `sealingNote`.** |
 
-The **Reception** times are set to the placeholder 6:00 PM to 9:00 PM. To show "Following the
+The **Reception** times are set to 6:00 PM to 8:30 PM. To show "Following the
 ring ceremony" instead, set both `startTime` and `endTime` to `""`.
 
 "Get Directions" opens Google Maps. "Add to Calendar" offers Google Calendar or a downloadable

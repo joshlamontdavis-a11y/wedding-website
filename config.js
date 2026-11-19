@@ -92,7 +92,7 @@ window.WEDDING = {
       title: "Reception",
       // Placeholder times. Clear both ("") to show "Following the ring ceremony" instead.
       startTime: "6:00 PM",
-      endTime: "9:00 PM",
+      endTime: "8:30 PM",
       timeFallback: "Following the ring ceremony",
       venue: "Northampton House",
       address: "198 W 300 N, American Fork, UT 84003",
