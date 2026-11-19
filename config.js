@@ -80,7 +80,7 @@ window.WEDDING = {
     },
     {
       title: "Ring Ceremony",
-      startTime: "4:00 PM",
+      startTime: "4:30 PM",
       endTime: "6:00 PM",
       timeFallback: "",
       venue: "Northampton House",
